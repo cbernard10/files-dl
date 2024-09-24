@@ -1,4 +1,4 @@
-# nds-scraper
+# files-dl
 
 To install dependencies:
 
