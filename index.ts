@@ -80,7 +80,7 @@ if (args["--help"]) {
     `${category}.sh`,
     `
   #!/bin/bash
-  wget -i ${category}.txt -P ${outputDir}${category}/ --wait ${args["--wait"] ?? 1} --random-wait --no-check-certificate
+  wget -i ${category}.txt -P ${outputDir}${category}/ --wait ${args["--wait"] ?? 1} --random-wait --no-check-certificate --no-clobber
     `
   );
   await browser.close();
