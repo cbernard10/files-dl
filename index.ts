@@ -12,6 +12,8 @@ const args = arg({
   "--is-absolute": Boolean,
   "--help": Boolean,
   "--wait": Number,
+  "--cache": Boolean,
+  "--repair-broken": Boolean,
 
   "-u": "--url",
   "-c": "--category",
@@ -21,6 +23,8 @@ const args = arg({
   "-r": "--replace-prefix",
   "-a": "--is-absolute",
   "-w": "--wait",
+  "-Ca": "--cache",
+  "-rb": "--repair-broken",
 });
 
 if (args["--help"]) {
@@ -33,6 +37,9 @@ if (args["--help"]) {
   --replace-prefix, -r: Replace prefix of URL. Useful when files are stored in a different server
   --is-absolute, -a: If the URLs of the files are absolute - if not, it will append the base URL to the file URL
   --wait, -w: Wait time between requests
+  --cache, -Ca: (not implemented) Download the files in the home directory first, then move them to the output directory.
+  --replace-if-incomplete, -ri: (not implemented) Downloads each file in the home directory first, and checks if there exists a file with the same name in the output directory.
+  If there is, it will replace the file in the output directory with the file in the home directory. Useful if the download was interrupted.
   `);
   process.exit(0);
 }
@@ -80,7 +87,15 @@ if (args["--help"]) {
     `${category}.sh`,
     `
   #!/bin/bash
-  wget -i ${category}.txt -P ${outputDir}${category}/ --wait ${args["--wait"] ?? 1} --random-wait --no-check-certificate --no-clobber
+  wget -i ${category}.txt -P ${
+      !args["--cache"] ? outputDir + '/' : `/home/$USER/.`
+    }${category}/ --wait ${
+      args["--wait"] ?? 1
+    } --random-wait --no-check-certificate --no-clobber; ${
+      args["--cache"]
+        ? `mkdir ${outputDir}/${category}; mv -v /home/$USER/.${category} ${outputDir}`
+        : ""
+    }  
     `
   );
   await browser.close();
