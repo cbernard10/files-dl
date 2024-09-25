@@ -93,7 +93,7 @@ if (args["--help"]) {
       args["--wait"] ?? 1
     } --random-wait --no-check-certificate --no-clobber; ${
       args["--cache"]
-        ? `mkdir ${outputDir}/${category}; mv -v /home/$USER/.${category} ${outputDir}`
+        ? `mkdir ${outputDir}/${category}; mv -v /home/$USER/.${category}/* ${outputDir}/${category}/`
         : ""
     }  
     `
