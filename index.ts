@@ -71,7 +71,7 @@ if (args["--help"]) {
     if (args["--is-absolute"]) {
       url = hrefs[i];
     } else {
-      url = baseUrl + hrefs[i];
+      url = baseUrl + '/' + hrefs[i];
     }
 
     if (args["--replace-prefix"]) {
