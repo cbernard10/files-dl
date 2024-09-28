@@ -87,14 +87,11 @@ if (args["--help"]) {
     `${category}.sh`,
     `
   #!/bin/bash
-  wget -i ${category}.txt -P ${
-      !args["--cache"] ? outputDir + '/' : `/home/$USER/.`
-    }${category}/ --wait ${
-      args["--wait"] ?? 1
-    } --random-wait --no-check-certificate --no-clobber; ${
-      args["--cache"]
-        ? `mv -v /home/$USER/.${category} ${outputDir}/${category}`
-        : ""
+  wget -np --random-wait -e -i ${category}.txt -P ${!args["--cache"] ? outputDir + '/' : `/home/$USER/.`
+    }${category}/ --wait ${args["--wait"] ?? 1
+    } --random-wait --no-check-certificate --no-clobber; ${args["--cache"]
+      ? `mv -v /home/$USER/.${category} ${outputDir}/${category}`
+      : ""
     }  
     `
   );
